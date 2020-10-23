@@ -64,6 +64,8 @@ When running in either Quarkus Development or Native mode, we also leverage the 
 
 ## Example Usage
 
+Start the Kafka container with `docker-compose up` command.
+
 Once Kafka container is up and running, the pmml-tracing-quarkus can be started, and it will connect to the running Kafka, listening for incoming messages on the
 `kogito-tracing-prediction-input` topic.
 For each incoming message on the above topic, a PMML4Result will be published on the `kogito-tracing-prediction-output` one.
