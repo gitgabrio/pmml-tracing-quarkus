@@ -74,9 +74,11 @@ For each incoming message on the above topic, a PMML4Result will be published on
 Publishing
 ```json
 {
-   "fld1": 3,
-   "fld2": 2,
-   "fld3": "y",
+   "inputData": {
+    "fld1": 3,
+    "fld2": 2,
+    "fld3": "y"
+    },
    "pmmlModel": "LinReg"
 }
 ```
@@ -98,9 +100,11 @@ will return
 Publishing
 ```json
 {
-  "temperature": 30.0,
-  "humidity": 10.0,
-   "pmmlModel": "SampleMine"
+  "inputData": {
+    "temperature": 30.0,
+    "humidity": 10.0
+  },
+  "pmmlModel": "SampleMine"
 }
 ```
 will return
@@ -121,8 +125,10 @@ will return
 Publishing
 ```json
 {
-  "input1": 5.0,
-  "input2": -10.0,
+  "inputData" : { 
+    "input1": 5.0,
+    "input2": -10.0
+  },
    "pmmlModel": "SimpleScorecard"
 }
 ```
@@ -146,14 +152,16 @@ will return
 Publishing
 ```json
 {
-  "residenceState": "AP",
-  "validLicense": true,
-  "occupation": "ASTRONAUT",
-  "categoricalY": "classA",
-  "categoricalX": "red",
-  "variable": 6.6,
-  "age": 25.0,
-   "pmmlModel": "PredicatesMining"
+  "inputData": {
+    "residenceState": "AP",
+    "validLicense": true,
+    "occupation": "ASTRONAUT",
+    "categoricalY": "classA",
+    "categoricalX": "red",
+    "variable": 6.6,
+    "age": 25.0
+  }, 
+  "pmmlModel": "PredicatesMining"
 }
 ```
 will return

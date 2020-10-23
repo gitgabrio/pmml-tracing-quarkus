@@ -35,6 +35,7 @@ public class PMMLTracer {
     private static final String INPUT_TOPIC_NAME = "kogito-tracing-prediction-input";
     private static final String OUTPUT_TOPIC_NAME = "kogito-tracing-prediction-output";
     private static final String PMML_MODEL = "pmmlModel";
+    private static final String INPUT_DATA = "inputData";
 
     private static final Logger logger = LoggerFactory.getLogger(PMMLTracer.class);
 
@@ -48,16 +49,20 @@ public class PMMLTracer {
     @Incoming(INPUT_TOPIC_NAME)
     @Outgoing(OUTPUT_TOPIC_NAME)
     @Broadcast
-    public PMML4Result process(Map<String, Object> inputData) {
-        logger.info("Received {}", inputData);
+    public PMML4Result process(Map<String, Object> rawInput) {
+        logger.info("Received {}", rawInput);
         PMML4Result toReturn;
-        if (!inputData.containsKey(PMML_MODEL)) {
+        if (!rawInput.containsKey(PMML_MODEL)) {
             logger.error("Missing required data '{}'", PMML_MODEL);
             toReturn = new PMML4Result();
             toReturn.setResultCode("ERROR");
+        } else if (!rawInput.containsKey(INPUT_DATA)) {
+            logger.error("Missing required data '{}'", INPUT_DATA);
+            toReturn = new PMML4Result();
+            toReturn.setResultCode("ERROR");
         } else {
-            String pmmlModel = (String) inputData.get(PMML_MODEL);
-            inputData.remove(PMML_MODEL);
+            String pmmlModel = (String) rawInput.get(PMML_MODEL);
+            Map<String, Object> inputData = (Map<String, Object>) rawInput.get(INPUT_DATA);
             toReturn = evaluatePMML(pmmlModel, inputData);
         }
         return toReturn;
@@ -68,11 +73,10 @@ public class PMMLTracer {
             org.kie.kogito.prediction.PredictionModel prediction = predictionModels.getPredictionModel(pmmlModel);
             return prediction.evaluateAll(prediction.newContext(inputData));
         } catch (Exception e) {
-            logger.error("Failed to evaluate model {}",  e.getMessage(), e);
+            logger.error("Failed to evaluate model {}", e.getMessage(), e);
             PMML4Result toReturn = new PMML4Result();
             toReturn.setResultCode("ERROR");
             return toReturn;
-
         }
     }
 }
