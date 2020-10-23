@@ -1,8 +1,8 @@
-# DMN Tracing Quarkus example
+# PMML Tracing Quarkus example
 
 ## Description
 
-A simple DMN service to evaluate a loan approval and generate tracing events that might be consumed by the Trusty service.
+A simple PMML service to evaluate some models that might be consumed by the Trusty service.
 
 ## Installing and Running
 
